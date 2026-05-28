@@ -137,6 +137,7 @@
     </div>
     <div class="f2">
       <div class="form-row"><label class="form-label">Software Version</label><input type="text" id="eSw"/></div>
+      <div class="form-row"><label class="form-label">Betaflight Version</label><input type="text" id="eBetaflight" placeholder="e.g. 4.4.0"/></div>
     </div>
     <div class="card-title" style="margin:14px 0 10px">Hardware <span style="font-size:10px;color:#E24B4A;font-weight:400;text-transform:none;letter-spacing:0">* Required fields</span></div>
     <div class="f2">
@@ -409,6 +410,7 @@ function selectDrone(id) {
       <div class="spec-grid">
         <div class="sl">Serial Number</div><div class="sv">${d.serial||'—'}</div>
         <div class="sl">Software Version</div><div class="sv">${d.sw||'—'}</div>
+        <div class="sl">Betaflight Version</div><div class="sv">${d._raw?.betaflight||'—'}</div>
         <div class="sl">Motor</div><div class="sv">${d.engine||'—'}</div>
         <div class="sl">OBC</div><div class="sv">${d._raw?.obc||'—'}</div>
         <div class="sl">Flight Controller</div><div class="sv">${d.fc||'—'}</div>
@@ -462,6 +464,7 @@ function openEditModal(id) {
   document.getElementById('eChangeReason').value = '';
   document.getElementById('eSerial').value = d.serial||'';
   document.getElementById('eSw').value = d.sw||'';
+  document.getElementById('eBetaflight').value = d._raw?.betaflight||'';
   document.getElementById('eEngine').value = d.engine||'';
   document.getElementById('eObc').value = d._raw?.obc||'';
   document.getElementById('eFc').value = d.fc||'';
@@ -482,7 +485,7 @@ function openNewDroneModal() {
   document.getElementById('editId').value = '';
   document.getElementById('editIsNew').value = 'true';
   document.getElementById('editModalTitle').textContent = 'Add New Drone';
-  ['eDroneId','eSerial','eSw','eEngine','eObc','eFc','eEsc','eCamera','eFrame','eProps','eBattery','eNotes','eChangedBy','eChangeReason'].forEach(id => {
+  ['eDroneId','eSerial','eSw','eBetaflight','eEngine','eObc','eFc','eEsc','eCamera','eFrame','eProps','eBattery','eNotes','eChangedBy','eChangeReason'].forEach(id => {
     const el = document.getElementById(id);
     if (el) { el.value = ''; el.classList.remove('invalid'); }
   });
@@ -563,9 +566,10 @@ async function saveDroneEdit() {
 
   const droneRow = {
     id:      id,
-    serial:  document.getElementById('eSerial').value,
-    motor:   document.getElementById('eEngine').value,
-    sw:      document.getElementById('eSw').value,
+    serial:     document.getElementById('eSerial').value,
+    motor:      document.getElementById('eEngine').value,
+    sw:         document.getElementById('eSw').value,
+    betaflight: document.getElementById('eBetaflight').value,
     camera:  document.getElementById('eCamera').value,
     frame:   document.getElementById('eFrame').value,
     fc:      document.getElementById('eFc').value,
